@@ -34,7 +34,6 @@ IPAddress subnet(255, 255, 255, 0);
 IPAddress primaryDNS(8, 8, 8, 8); 
 IPAddress secondaryDNS(8, 8, 4, 4); 
 
-
 void startCameraServer();
 
 void setup() {
@@ -66,7 +65,7 @@ void setup() {
  
  
   config.frame_size = FRAMESIZE_QVGA;
-  config.jpeg_quality = 4;
+  config.jpeg_quality = 6;
   config.fb_count = 2;
 
   // Camera init
@@ -126,7 +125,7 @@ void startCameraServer() {
         if (!client.connected()) {
             break;
         }
-        delay(10); // Give some time to send the data
+        delay(10); 
     }
 });
 
