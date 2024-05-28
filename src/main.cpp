@@ -6,6 +6,11 @@
 const char* ssid = "Barbosa-RBT";
 const char* password = "123456789";
 
+//const char* ssid = "TP_HOME_5G";
+//const char* password = "aqwzsxedcrfvtgbyhn81+";
+
+
+
 WebServer server(80);
 
 // Pin configuration spécifique au modèle AI-THINKER de ESP32-CAM
@@ -30,6 +35,11 @@ WebServer server(80);
 
 IPAddress local_IP(192, 168, 4, 3);
 IPAddress gateway(192, 168, 4, 1); 
+/***********************************/
+//IPAddress local_IP(192, 168, 0, 166);
+//IPAddress gateway(192, 168, 0, 254); 
+
+////////////////////////////////////
 IPAddress subnet(255, 255, 255, 0);
 IPAddress primaryDNS(8, 8, 8, 8); 
 IPAddress secondaryDNS(8, 8, 4, 4); 
@@ -38,7 +48,6 @@ void startCameraServer();
 
 void setup() {
   Serial.begin(115200);
-
   Serial.println("terminal ok");
   
   camera_config_t config;
@@ -60,13 +69,14 @@ void setup() {
   config.pin_sccb_scl = SIOC_GPIO_NUM;
   config.pin_pwdn = PWDN_GPIO_NUM;
   config.pin_reset = RESET_GPIO_NUM;
-  config.xclk_freq_hz = 10000000;
+  config.xclk_freq_hz = 20000000;
   config.pixel_format = PIXFORMAT_JPEG;
  
  
-  config.frame_size = FRAMESIZE_QVGA;
-  config.jpeg_quality = 6;
-  config.fb_count = 2;
+  config.frame_size = FRAMESIZE_SVGA;
+  config.jpeg_quality = 15;
+  config.fb_count = 4;
+
 
   // Camera init
   esp_err_t err = esp_camera_init(&config);
@@ -98,7 +108,7 @@ void loop() {
 void startCameraServer() {
   server.on("/", HTTP_GET, [](){
     server.sendHeader("Connection", "close");
-    server.send(200, "text/html", "<html><head><title>ESP32-CAM Video Stream</title></head><body><h1>ESP32-CAM Video Stream</h1><img src=\"/stream\" alt=\"Video Stream\"></body></html>");
+    server.send(200, "text/html", "<html><head><title></title></head><body><img src=\"/stream\" alt=\"Video Stream\"></body></html>");
   });
 
   server.on("/stream", HTTP_GET, [](){
