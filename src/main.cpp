@@ -1,10 +1,11 @@
+
 #include "esp_camera.h"
 #include <WiFi.h>
 #include <WebServer.h>
 
 // Remplacer par vos identifiants WiFi
-const char* ssid = "Barbosa-RBT";
-const char* password = "123456789";
+const char* ssid = "homecenter";
+const char* password = "aqwzsxedcrfvtgbyhn";
 
 //const char* ssid = "TP_HOME_5G";
 //const char* password = "aqwzsxedcrfvtgbyhn81+";
@@ -33,11 +34,11 @@ WebServer server(80);
 #define PCLK_GPIO_NUM     22
 
 
-IPAddress local_IP(192, 168, 4, 3);
-IPAddress gateway(192, 168, 4, 1); 
+//IPAddress local_IP(192, 168, 4, 3);
+//IPAddress gateway(192, 168, 4, 1); 
 /***********************************/
-//IPAddress local_IP(192, 168, 0, 166);
-//IPAddress gateway(192, 168, 0, 254); 
+IPAddress local_IP(192, 168, 0, 166);
+IPAddress gateway(192, 168, 0, 254); 
 
 ////////////////////////////////////
 IPAddress subnet(255, 255, 255, 0);
@@ -69,13 +70,12 @@ void setup() {
   config.pin_sccb_scl = SIOC_GPIO_NUM;
   config.pin_pwdn = PWDN_GPIO_NUM;
   config.pin_reset = RESET_GPIO_NUM;
-  config.xclk_freq_hz = 20000000;
+  config.xclk_freq_hz = 16000000;
   config.pixel_format = PIXFORMAT_JPEG;
- 
- 
-  config.frame_size = FRAMESIZE_SVGA;
-  config.jpeg_quality = 15;
-  config.fb_count = 4;
+  
+  config.frame_size = FRAMESIZE_VGA;
+  config.jpeg_quality = 34;
+  config.fb_count = 1;
 
 
   // Camera init
@@ -106,11 +106,11 @@ void loop() {
 }
 
 void startCameraServer() {
-  server.on("/", HTTP_GET, [](){
+  /*server.on("/", HTTP_GET, [](){
     server.sendHeader("Connection", "close");
     server.send(200, "text/html", "<html><head><title></title></head><body><img src=\"/stream\" alt=\"Video Stream\"></body></html>");
   });
-
+*/
   server.on("/stream", HTTP_GET, [](){
     WiFiClient client = server.client();
     camera_fb_t *fb = NULL;
